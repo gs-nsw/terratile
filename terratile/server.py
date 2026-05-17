@@ -115,10 +115,14 @@ def tile(dataset: str, z: int, x: int, y: int, normals: bool=False, quality: flo
 @app.get('/{dataset}/preview')
 def preview(request: Request, dataset: str, normals:bool=None, quality:float=None):
     ds = Dataset.from_name(dataset)
-    return templates.TemplateResponse('preview.html', {
-        'request': request,
-        'dataset': dataset,
-        'bounds': ds.bounds,
-        'quality': quality,
-        'normals':normals
-    })
+    return templates.TemplateResponse(
+        request,
+        'preview.html',
+        {
+            'request': request,
+            'dataset': dataset,
+            'bounds': ds.bounds,
+            'quality': quality,
+            'normals':normals
+        }
+    )
