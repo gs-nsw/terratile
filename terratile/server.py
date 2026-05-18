@@ -126,3 +126,8 @@ def preview(request: Request, dataset: str, normals:bool=None, quality:float=Non
             'normals':normals
         }
     )
+
+
+@app.get("/healthz")
+def healthz():
+    return {"status": "ok"}
