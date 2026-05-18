@@ -14,7 +14,8 @@ WORKDIR /src
 
 RUN python3 -m pip install --break-system-packages "./[server]"
 
-WORKDIR /src/example
+COPY ./example /terrain_data
+WORKDIR /terrain_data
 
 CMD ["uvicorn", "terratile.server:app", "--host=0.0.0.0", "--port=8000", "--workers=4"]
 EXPOSE 8000/tcp
