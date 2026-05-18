@@ -30,4 +30,6 @@ jobs:
           context: .
           file: Dockerfile.noble
           push: true
-          tags: ghcr.io/gs-nsw/terratile:latest
+          tags: |
+            ghcr.io/gs-nsw/terratile:latest
+            ghcr.io/felixsheldon/terratile:${{ github.sha }}
