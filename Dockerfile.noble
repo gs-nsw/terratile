@@ -12,7 +12,7 @@ RUN set -ex; export DEBIAN_FRONTEND=noninteractive; \
 COPY . /src
 WORKDIR /src
 
-RUN pip3 install --break-system-packages ./[server]
+RUN python3 -m pip install --break-system-packages "./[server]"
 
 WORKDIR /src/example
 
