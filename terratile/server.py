@@ -75,7 +75,7 @@ templates = Jinja2Templates(directory=str(Path(__file__).parent.resolve()))
 
 
 @app.get('/{dataset}/layer.json')
-def layer_json(dataset: str, normals:bool=False):
+def layer_json(dataset: str, normals:bool=True):
     ds = Dataset.from_name(dataset)
     tiles_url='{z}/{x}/{y}.terrain'
     if normals:
@@ -102,7 +102,7 @@ def layer_json(dataset: str, normals:bool=False):
 
 
 @app.get('/{dataset}/{z}/{x}/{y}.terrain')
-def tile(dataset: str, z: int, x: int, y: int, normals: bool=False, quality: float=1.0):
+def tile(dataset: str, z: int, x: int, y: int, normals: bool=None, quality: float=1.0):
     ds = Dataset.from_name(dataset)
     data = mesh_tile(ds.gdal_ds, (z, x, y), write_normals=normals, quality=quality)
     return Response(data, media_type="application/octet-stream", headers={

@@ -68,14 +68,12 @@ GDALTiler::GDALTiler(GDALDataset *poDataset, const Grid &grid, const TilerOption
       throw CTBException("The source dataset does not have a spatial reference system assigned");
 
     OGRSpatialReference srcSRS = OGRSpatialReference(srcWKT);
-    #if GDAL_VERSION_NUM >= GDAL_COMPUTE_VERSION(3,0,0)
-    srcSRS.SetAxisMappingStrategy(OAMS_TRADITIONAL_GIS_ORDER);
-    #endif // GDAL_VERSION_NUM >= GDAL_COMPUTE_VERSION(3,0,0)
-    
     OGRSpatialReference gridSRS = mGrid.getSRS();
-    #if GDAL_VERSION_NUM >= GDAL_COMPUTE_VERSION(3,0,0)
+
+    #if ( GDAL_VERSION_MAJOR >= 3 )
+    srcSRS.SetAxisMappingStrategy(OAMS_TRADITIONAL_GIS_ORDER);
     gridSRS.SetAxisMappingStrategy(OAMS_TRADITIONAL_GIS_ORDER);
-    #endif // GDAL_VERSION_NUM >= GDAL_COMPUTE_VERSION(3,0,0)
+    #endif
 
     if (!srcSRS.IsSame(&gridSRS)) { // it doesn't match
       // Check the srs is valid
@@ -216,8 +214,18 @@ GDALTiler::createRasterTile(GDALDataset *dataset, const TileCoordinate &coord) c
  * This code is adapted from that found in `gdalwarp.cpp` implementing the
  * `gdalwarp -ovr` option.
  */
-#if ( GDAL_VERSION_MAJOR >= 3 || ( GDAL_VERSION_MAJOR >= 2 && GDAL_VERSION_MINOR >= 2 ) )
-#include "gdaloverviewdataset.cpp"
+#if   ( GDAL_VERSION_MAJOR >= 3 && GDAL_VERSION_MINOR >= 11)
+#include "overviews/gdaloverviewdataset-gdal3.11.x.cpp"
+#elif ( GDAL_VERSION_MAJOR >= 3 && GDAL_VERSION_MINOR == 10)
+#include "overviews/gdaloverviewdataset-gdal3.10.x.cpp"
+#elif ( GDAL_VERSION_MAJOR >= 3 && GDAL_VERSION_MINOR == 9 )
+#include "overviews/gdaloverviewdataset-gdal3.9.x.cpp"
+#elif ( GDAL_VERSION_MAJOR >= 3 && GDAL_VERSION_MINOR == 8 )
+#include "overviews/gdaloverviewdataset-gdal3.8.x.cpp"
+#elif ( GDAL_VERSION_MAJOR >= 3 )
+#include "overviews/gdaloverviewdataset-gdal3x.cpp"
+#elif ( GDAL_VERSION_MAJOR >= 2 && GDAL_VERSION_MINOR >= 2 )
+#include "overviews/gdaloverviewdataset-gdal2x.cpp"
 #endif
 
 static

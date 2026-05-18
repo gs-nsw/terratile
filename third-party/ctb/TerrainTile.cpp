@@ -325,9 +325,9 @@ TerrainTile::heightsToRaster() const {
   // Create the spatial reference system for the raster
   OGRSpatialReference oSRS;
 
-  #if GDAL_VERSION_NUM >= GDAL_COMPUTE_VERSION(3,0,0)
+  #if ( GDAL_VERSION_MAJOR >= 3 )
   oSRS.SetAxisMappingStrategy(OAMS_TRADITIONAL_GIS_ORDER);
-  #endif // GDAL_VERSION_NUM >= GDAL_COMPUTE_VERSION(3,0,0)
+  #endif
 
   if (oSRS.importFromEPSG(4326) != OGRERR_NONE) {
     throw CTBException("Could not create EPSG:4326 spatial reference");

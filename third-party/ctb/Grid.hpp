@@ -67,6 +67,21 @@ public:
     mXOriginShift(extent.getWidth() / 2),
     mYOriginShift(extent.getHeight() / 2),
     mZoomFactor(zoomFactor)
+  {
+    #if ( GDAL_VERSION_MAJOR >= 3 )
+    mSRS.SetAxisMappingStrategy(OAMS_TRADITIONAL_GIS_ORDER);
+    #endif
+  }
+
+  /// Copy constructor
+  Grid(const Grid &other):
+    mTileSize(other.mTileSize),
+    mExtent(other.mExtent),
+    mSRS(other.mSRS),
+    mInitialResolution(other.mInitialResolution),
+    mXOriginShift(other.mXOriginShift),
+    mYOriginShift(other.mYOriginShift),
+    mZoomFactor(other.mZoomFactor)
   {}
 
   /// Overload the assignment operator
