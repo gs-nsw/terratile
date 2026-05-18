@@ -32,4 +32,4 @@ jobs:
           push: true
           tags: |
             ghcr.io/gs-nsw/terratile:latest
-            ghcr.io/felixsheldon/terratile:${{ github.sha }}
+            ghcr.io/gs-nsw/terratile:${{ github.sha }}
